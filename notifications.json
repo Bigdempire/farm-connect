@@ -1,0 +1,13 @@
+[
+    {
+        "id": "b6e47509-96aa-45a5-923c-783775f2d28a",
+        "user_id": 2,
+        "buyer_id": 1,
+        "buyer_name": "Denice",
+        "product_id": "54239f72-3acc-49a1-899d-7146c60cd130",
+        "product_name": "Zabibu",
+        "timestamp": "2025-05-11 06:41:09",
+        "read": true,
+        "chat_link": "/chat/1/54239f72-3acc-49a1-899d-7146c60cd130"
+    }
+]

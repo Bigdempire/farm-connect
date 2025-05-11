@@ -1,0 +1,103 @@
+[
+    {
+        "chat_id": "1_2_54239f72-3acc-49a1-899d-7146c60cd130",
+        "buyer_id": 1,
+        "buyer_name": "Denice",
+        "seller_id": "2",
+        "seller_name": "Ally",
+        "product_id": "54239f72-3acc-49a1-899d-7146c60cd130",
+        "product_name": "Zabibu",
+        "messages": [
+            {
+                "id": "9e655684-e792-447a-82fc-1086228e9fae",
+                "sender_id": 1,
+                "sender_name": "Denice",
+                "message": "nataka mzigo",
+                "timestamp": "2025-05-11 05:47:35",
+                "is_read": false
+            },
+            {
+                "id": "0b06bae1-9e5a-4df1-bb5d-acee52c5dceb",
+                "sender_id": "2",
+                "sender_name": "Ally",
+                "message": "Do you have any questions about how we grow our produce?",
+                "timestamp": "2025-05-11 05:47:35",
+                "is_read": false
+            },
+            {
+                "id": "7380e321-2044-4eb5-8110-b71501823809",
+                "sender_id": 1,
+                "sender_name": "Denice",
+                "message": "nataka mzigo",
+                "timestamp": "2025-05-11 05:47:47",
+                "is_read": false
+            },
+            {
+                "id": "33c4b10f-0082-4fac-bd08-068abca256ed",
+                "sender_id": "2",
+                "sender_name": "Ally",
+                "message": "Thanks for supporting local farmers!",
+                "timestamp": "2025-05-11 05:47:47",
+                "is_read": false
+            },
+            {
+                "id": "85326c17-63b9-471e-b45b-3499062e1e21",
+                "sender_id": 1,
+                "sender_name": "Denice",
+                "message": "hi",
+                "timestamp": "2025-05-11 06:05:21",
+                "is_read": false
+            },
+            {
+                "id": "583053c2-ed72-4167-9ae6-648ba56b56f5",
+                "sender_id": "2",
+                "sender_name": "Ally",
+                "message": "I can deliver to your location for a small fee. Would that be convenient?",
+                "timestamp": "2025-05-11 06:05:21",
+                "is_read": false
+            },
+            {
+                "id": "d50a4d49-914f-4349-84a5-76e64db2de0a",
+                "sender_id": 1,
+                "sender_name": "Denice",
+                "message": "hi",
+                "timestamp": "2025-05-11 06:20:25",
+                "is_read": false
+            },
+            {
+                "id": "ab787766-2264-4ebb-9312-5bfb376d0cc3",
+                "sender_id": "2",
+                "sender_name": "Ally",
+                "message": "Do you have any questions about how we grow our produce?",
+                "timestamp": "2025-05-11 06:20:25",
+                "is_read": false
+            },
+            {
+                "id": "66cf4e8a-8007-4b42-a0e2-5819e25c2b71",
+                "sender_id": 1,
+                "sender_name": "Denice",
+                "message": "hi",
+                "timestamp": "2025-05-11 06:40:10",
+                "is_read": false
+            },
+            {
+                "id": "dae17020-9253-42ac-a59a-1caf368b551c",
+                "sender_id": "2",
+                "sender_name": "Ally",
+                "message": "I can deliver to your location for a small fee. Would that be convenient?",
+                "timestamp": "2025-05-11 06:40:10",
+                "is_read": false
+            }
+        ]
+    },
+    {
+        "chat_id": "2_2_54239f72-3acc-49a1-899d-7146c60cd130",
+        "buyer_id": 2,
+        "buyer_name": "Ally",
+        "seller_id": "2",
+        "seller_name": "Ally",
+        "product_id": "54239f72-3acc-49a1-899d-7146c60cd130",
+        "product_name": "Zabibu",
+        "messages": []
+    }
+]

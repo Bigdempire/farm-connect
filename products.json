@@ -1,0 +1,14 @@
+[
+    {
+        "id": "54239f72-3acc-49a1-899d-7146c60cd130",
+        "title": "Zabibu",
+        "price": "$10",
+        "location": "Dodoma",
+        "description": "Zabibu za bihawana  anapotokea moni central zone",
+        "image": "/static/uploads/products/54239f72-3acc-49a1-899d-7146c60cd130.jpg",
+        "seller_id": 2,
+        "seller_name": "Ally",
+        "seller_avatar": "/static/uploads/default-profile.png",
+        "date_posted": "2025-05-11 05:46:48"
+    }
+]

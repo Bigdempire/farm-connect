@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Place Order - Farm Connect</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background-color: #e8f5e9;
+        }
+        .header {
+            width: 100%;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 100;
+        }
+        .navbar {
+            padding: 15px 0;
+        }
+        .navbar-brand {
+            font-weight: bold;
+            color: #4CAF50 !important;
+            font-size: 1.5rem;
+        }
+        .navbar-nav .nav-link {
+            color: #555;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+        }
+        .navbar-nav .nav-link:hover {
+            color: #4CAF50;
+        }
+        .active {
+            color: #4CAF50 !important;
+        }
+        .btn-primary {
+            background-color: #4CAF50;
+            border-color: #4CAF50;
+        }
+        .btn-primary:hover {
+            background-color: #388E3C;
+            border-color: #388E3C;
+        }
+        .btn-outline-success {
+            color: #4CAF50;
+            border-color: #4CAF50;
+        }
+        .btn-outline-success:hover {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .footer {
+            width: 100%;
+            background-color: #f8f9fa;
+            padding: 1.5rem 0;
+            text-align: center;
+            margin-top: auto;
+        }
+        .footer p {
+            margin-bottom: 0;
+            color: #666;
+        }
+        
+        /* Order specific styles */
+        .order-container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #f1f8e9;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border: 1px solid #c5e1a5;
+        }
+        .product-summary {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        .product-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-right: 20px;
+        }
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .product-details h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .product-price {
+            color: #4CAF50;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        .form-group label {
+            font-weight: 500;
+            color: #333;
+        }
+        .total-section {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+        }
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        .total-price {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <a class="navbar-brand" href="/">Farm Connect</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/posts">Posts</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/my_orders">My Orders</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="order-container">
+        <h2 class="mb-4">Place Your Order</h2>
+        
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        <!-- Product Summary -->
+        <div class="product-summary">
+            <div class="product-image">
+                <img src="{{ product.image }}" alt="{{ product.title }}">
+            </div>
+            <div class="product-details">
+                <h3>{{ product.title }}</h3>
+                <p class="product-price">{{ product.price }}</p>
+                <p class="product-seller">Seller: {{ product.seller_name }}</p>
+                <p class="product-location">Location: {{ product.location }}</p>
+            </div>
+        </div>
+        
+        <!-- Order Form -->
+        <form action="{{ url_for('place_order', product_id=product.id) }}" method="POST">
+            <div class="form-group">
+                <label for="quantity">Quantity</label>
+                <input type="number" class="form-control" id="quantity" name="quantity" min="1" value="1" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="delivery_address">Delivery Address</label>
+                <textarea class="form-control" id="delivery_address" name="delivery_address" rows="3" required></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="payment_method">Payment Method</label>
+                <select class="form-control" id="payment_method" name="payment_method" required>
+                    <option value="cash">Cash on Delivery</option>
+                    <option value="mobile_money">Mobile Money</option>
+                    <option value="bank_transfer">Bank Transfer</option>
+                </select>
+            </div>
+            
+            <!-- Total Section -->
+            <div class="total-section">
+                <div class="total-row">
+                    <span>Subtotal:</span>
+                    <span id="subtotal">{{ product.price }}</span>
+                </div>
+                <div class="total-row">
+                    <span>Delivery Fee:</span>
+                    <span>$2.00</span>
+                </div>
+                <div class="total-row">
+                    <span class="font-weight-bold">Total:</span>
+                    <span class="total-price" id="total-price">{{ product.price }}</span>
+                </div>
+            </div>
+            
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-primary btn-lg">Place Order</button>
+                <a href="/posts" class="btn btn-outline-secondary btn-lg ml-2">Cancel</a>
+            </div>
+        </form>
+    </div>
+    
+    <!-- Footer -->
+    <div class="footer">
+        <div class="container">
+            <p>&copy; 2025 Farm Connect. All rights reserved.</p>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+    <script>
+        // Calculate total based on quantity
+        $(document).ready(function() {
+            const priceStr = "{{ product.price }}";
+            const basePrice = parseFloat(priceStr.replace('$', ''));
+            const deliveryFee = 2.00;
+            
+            $('#quantity').change(function() {
+                const quantity = parseInt($(this).val());
+                const subtotal = (basePrice * quantity).toFixed(2);
+                const total = (basePrice * quantity + deliveryFee).toFixed(2);
+                
+                $('#subtotal').text('$' + subtotal);
+                $('#total-price').text('$' + total);
+            });
+            
+            // Set initial values
+            const quantity = parseInt($('#quantity').val());
+            const subtotal = (basePrice * quantity).toFixed(2);
+            const total = (basePrice * quantity + deliveryFee).toFixed(2);
+            
+            $('#subtotal').text('$' + subtotal);
+            $('#total-price').text('$' + total);
+        });
+    </script>
+</body>
+</html>

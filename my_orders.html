@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders - Farm Connect</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background-color: #e8f5e9;
+        }
+        .header {
+            width: 100%;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 100;
+        }
+        .navbar {
+            padding: 15px 0;
+        }
+        .navbar-brand {
+            font-weight: bold;
+            color: #4CAF50 !important;
+            font-size: 1.5rem;
+        }
+        .navbar-nav .nav-link {
+            color: #555;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+        }
+        .navbar-nav .nav-link:hover {
+            color: #4CAF50;
+        }
+        .active {
+            color: #4CAF50 !important;
+        }
+        .btn-primary {
+            background-color: #4CAF50;
+            border-color: #4CAF50;
+        }
+        .btn-primary:hover {
+            background-color: #388E3C;
+            border-color: #388E3C;
+        }
+        .footer {
+            width: 100%;
+            background-color: #f8f9fa;
+            padding: 1.5rem 0;
+            text-align: center;
+            margin-top: auto;
+        }
+        .footer p {
+            margin-bottom: 0;
+            color: #666;
+        }
+        
+        /* Orders specific styles */
+        .orders-container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+        .order-card {
+            background-color: #f1f8e9;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border: 1px solid #c5e1a5;
+            overflow: hidden;
+        }
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #e0f2e0;
+            padding: 15px 20px;
+            border-bottom: 1px solid #c5e1a5;
+        }
+        .order-id {
+            font-size: 0.9rem;
+            color: #666;
+            margin: 0;
+        }
+        .order-date {
+            font-size: 0.9rem;
+            color: #666;
+            margin: 0;
+        }
+        .order-status {
+            font-weight: bold;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+        .status-pending {
+            background-color: #FFF3CD;
+            color: #856404;
+        }
+        .status-shipped {
+            background-color: #D1ECF1;
+            color: #0C5460;
+        }
+        .status-delivered {
+            background-color: #D4EDDA;
+            color: #155724;
+        }
+        .status-cancelled {
+            background-color: #F8D7DA;
+            color: #721C24;
+        }
+        .order-body {
+            padding: 20px;
+        }
+        .order-product {
+            display: flex;
+            margin-bottom: 15px;
+        }
+        .order-product-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-right: 15px;
+        }
+        .order-product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .order-product-details h4 {
+            margin-top: 0;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+        .order-product-price {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        .order-summary {
+            background-color: #e8f5e9;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        .summary-total {
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #333;
+        }
+        .order-actions {
+            margin-top: 15px;
+            text-align: right;
+        }
+        .no-orders {
+            text-align: center;
+            padding: 50px 0;
+            color: #666;
+        }
+        .no-orders p {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <a class="navbar-brand" href="/">Farm Connect</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/posts">Posts</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/my_orders">My Orders</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="orders-container">
+        <h2 class="mb-4">My Orders</h2>
+        
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        <!-- Orders List -->
+        {% if orders %}
+            {% for order in orders %}
+                <div class="order-card">
+                    <div class="order-header">
+                        <p class="order-id">Order #{{ order.id[:8] }}</p>
+                        <p class="order-date">{{ order.date_ordered }}</p>
+                        <span class="order-status status-{{ order.status }}">{{ order.status }}</span>
+                    </div>
+                    <div class="order-body">
+                        <div class="order-product">
+                            <div class="order-product-image">
+                                <img src="/static/uploads/products/{{ order.product_id }}.jpg" alt="{{ order.product_title }}" onerror="this.src='/static/uploads/default-product.jpg'">
+                            </div>
+                            <div class="order-product-details">
+                                <h4>{{ order.product_title }}</h4>
+                                <p class="order-product-price">{{ order.product_price }} x {{ order.quantity }}</p>
+                                <p class="order-seller">Seller: {{ order.seller_name }}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="order-summary">
+                            <div class="summary-row">
+                                <span>Subtotal:</span>
+                                <span>${{ (order.total_price - 2.0)|round(2) }}</span>
+                            </div>
+                            <div class="summary-row">
+                                <span>Delivery Fee:</span>
+                                <span>$2.00</span>
+                            </div>
+                            <div class="summary-row summary-total">
+                                <span>Total:</span>
+                                <span>${{ order.total_price|round(2) }}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="order-details mt-3">
+                            <p><strong>Delivery Address:</strong> {{ order.delivery_address }}</p>
+                            <p><strong>Payment Method:</strong> 
+                                {% if order.payment_method == 'cash' %}
+                                    Cash on Delivery
+                                {% elif order.payment_method == 'mobile_money' %}
+                                    Mobile Money
+                                {% elif order.payment_method == 'bank_transfer' %}
+                                    Bank Transfer
+                                {% else %}
+                                    {{ order.payment_method }}
+                                {% endif %}
+                            </p>
+                        </div>
+                        
+                        <div class="order-actions">
+                            <a href="/messages" class="btn btn-outline-primary">View Messages</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="no-orders">
+                <h4>You don't have any orders yet</h4>
+                <p>Go to the posts page to find products you might be interested in.</p>
+                <a href="/posts" class="btn btn-primary">Browse Products</a>
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- Footer -->
+    <div class="footer">
+        <div class="container">
+            <p>&copy; 2025 Farm Connect. All rights reserved.</p>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

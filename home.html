@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farm Connect - Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            /* Background handled with inline style */
+        }
+        .header {
+            width: 100vw;
+            background: linear-gradient(to right, #4be36a, #145c25);
+            color: #fff;
+            padding: 1.2rem 0 1.2rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+            position: relative;
+            z-index: 10;
+        }
+        .header-content {
+            width: 100%;
+            max-width: 1100px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .header .logo {
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+        .header nav {
+            display: flex;
+            align-items: center;
+            gap: 2.2rem;
+        }
+        .header nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.15rem;
+            transition: color 0.2s;
+        }
+        .header nav a:hover {
+            color: #ffe082;
+        }
+        .notification-icon {
+            position: relative;
+            margin-right: 1rem;
+            cursor: pointer;
+        }
+        .notification-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: #ff4444;
+            color: white;
+            border-radius: 50%;
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+            min-width: 18px;
+            text-align: center;
+        }
+        .notification-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            width: 300px;
+            max-height: 400px;
+            overflow-y: auto;
+            display: none;
+            z-index: 1000;
+        }
+        .notification-dropdown.show {
+            display: block;
+        }
+        .notification-item {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            color: #333;
+            cursor: pointer;
+        }
+        .notification-item:hover {
+            background-color: #f8f9fa;
+        }
+        .notification-item.unread {
+            background-color: #e3f2fd;
+        }
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+        .profile-icon {
+            width: 42px;
+            height: 42px;
+            background: #b6ff8c;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 1rem;
+        }
+        .profile-icon img {
+            width: 30px;
+            height: 30px;
+        }
+        .hero {
+            width: 100vw;
+            height: 450px;
+            position: relative;
+            margin: 0;
+            left: 0;
+            right: 0;
+            border-radius: 0;
+            overflow: hidden;
+            max-width: 100vw;
+            background: none;
+        }
+        #heroCarousel, .carousel-inner, .carousel-item, .hero-img {
+            width: 100vw !important;
+            max-width: 100vw !important;
+            height: 450px !important;
+        }
+        .carousel-item {
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+            background: none;
+        }
+        .hero-img {
+            object-fit: cover;
+            width: 100vw !important;
+            height: 450px !important;
+            border-radius: 0 !important;
+            display: block;
+            background: none;
+        }
+        .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #fff;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            cursor: pointer;
+        }
+        .arrow.left { left: -18px; }
+        .arrow.right { right: -18px; }
+        .explore-title {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #5a6c2e;
+            margin: 2rem 0 1.5rem 0;
+            letter-spacing: 1px;
+        }
+        .products-section {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto 2rem auto;
+        }
+        .product-card {
+            display: flex;
+            background: #f3f3f3;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            overflow: hidden;
+        }
+        .product-img {
+            width: 180px;
+            height: 130px;
+            object-fit: cover;
+        }
+        .product-info {
+            flex: 1;
+            padding: 1rem 1.2rem 1rem 1.2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .farm-row {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+        }
+        .farm-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #b6ff8c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .farm-avatar img {
+            width: 28px;
+            height: 28px;
+        }
+        .farm-name {
+            font-weight: bold;
+            color: #1e8c3a;
+            font-size: 1.1rem;
+        }
+        .stars {
+            color: #ffc107;
+            margin-left: auto;
+            font-size: 1.1rem;
+        }
+        .desc {
+            color: #444;
+            font-size: 0.98rem;
+            margin: 0.5rem 0 0.7rem 0;
+        }
+        .price-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .price {
+            font-weight: bold;
+            color: #1e8c3a;
+            font-size: 1.05rem;
+        }
+        .stock {
+            background: #ff5252;
+            color: #fff;
+            border-radius: 8px;
+            padding: 0.1rem 0.6rem;
+            font-size: 0.9rem;
+            margin-left: 0.5rem;
+        }
+        .chat-btn {
+            background: #ffe082;
+            color: #1e8c3a;
+            border: none;
+            border-radius: 6px;
+            padding: 0.4rem 1.1rem;
+            font-weight: 500;
+            font-size: 1rem;
+            margin-top: 0.5rem;
+            transition: background 0.2s;
+        }
+        .chat-btn:hover {
+            background: #ffd54f;
+        }
+        .footer {
+            width: 100%;
+            background: linear-gradient(to right, #4be36a, #145c25);
+            color: #fff;
+            padding: 1.2rem 0 1.2rem 0;
+            position: fixed;
+            left: 0;
+            bottom: 0;
+        }
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            max-width: 900px;
+            margin: 0 auto;
+            font-size: 1rem;
+        }
+        .footer .logo {
+            color: #fff;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+        .quick-links span {
+            font-weight: bold;
+        }
+        .quick-links a {
+            display: block;
+            color: #fff;
+            text-decoration: underline;
+            font-size: 0.95rem;
+        }
+        .social-media span {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+        .icons {
+            display: flex;
+            gap: 0.4rem;
+        }
+        .dot {
+            width: 12px;
+            height: 12px;
+            background: #fff;
+            border-radius: 50%;
+            display: inline-block;
+            opacity: 0.5;
+        }
+        .dot:nth-child(1) { opacity: 1; }
+        .dot:nth-child(2) { opacity: 0.8; }
+        .dot:nth-child(3) { opacity: 0.6; }
+        .dot:nth-child(4) { opacity: 0.4; }
+        @media (max-width: 1000px) {
+            .header-content, .products-section, .footer-content, .hero {
+                max-width: 98vw;
+            }
+        }
+        @media (max-width: 600px) {
+            .footer-content {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                gap: 1rem;
+            }
+            .product-card {
+                flex-direction: column;
+            }
+            .product-img {
+                width: 100%;
+                height: 180px;
+            }
+            .hero, #heroCarousel, .carousel-inner, .carousel-item, .hero-img {
+                height: 220px !important;
+                min-height: 220px !important;
+            }
+            .hero-img {
+                height: 220px !important;
+            }
+            #heroCarousel, .carousel-inner {
+                height: 220px !important;
+            }
+            .carousel-item img {
+                height: 220px !important;
+            }
+        }
+        .welcome-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 50vh;
+            padding: 2rem;
+        }
+        .welcome-box {
+            background-color: rgba(255, 255, 255, 0.85);
+            border-radius: 15px;
+            padding: 2.5rem;
+            text-align: center;
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .welcome-box h1 {
+            color: #1e8c3a;
+            margin-bottom: 1.5rem;
+            font-size: 2.2rem;
+        }
+        .welcome-box p {
+            color: #444;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        .action-btn {
+            background-color: #1e8c3a;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .action-btn:hover {
+            background-color: #166e2d;
+            color: white;
+        }
+        .image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.6);
+            border-radius: 0.25rem;
+        }
+        .overlay-text {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+            color: #333;
+            font-weight: 500;
+            overflow-y: auto;
+        }
+        .overlay-text p {
+            margin-bottom: 15px;
+            text-shadow: 0 0 3px white;
+        }
+    </style>
+</head>
+<body style="background-image: url('https://quantumdigital.com/sites/default/files/field.jpg'); background-size: cover; background-position: center; background-attachment: fixed;">
+    <div class="header">
+        <div class="header-content">
+            <span class="logo">FARM CONNECT</span>
+            <nav>
+                <a href="/home">Home</a>
+                <a href="/dashboard">Dashboard</a>
+                <a href="/posts" class="btn btn-success btn-sm">SEE POST</a>
+                <a href="/logout">Logout</a>
+                <div class="notification-icon" id="notificationIcon">
+                    <span style="color: white; margin-right: 4px;">Orders</span>
+                    <i class="fas fa-shopping-cart fa-lg" style="color: white;"></i>
+                    <span class="notification-badge" id="notificationCount">0</span>
+                    <div class="notification-dropdown" id="notificationDropdown">
+                        <div class="notification-header" style="padding: 10px; background: linear-gradient(to right, #4be36a, #145c25); color: white; border-bottom: 1px solid #eee;">
+                            <strong>New Orders</strong>
+                        </div>
+                        <div class="notification-list" id="notificationList">
+                            <!-- Notifications will be inserted here -->
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-icon">
+                    <img src="{{ url_for('static', filename='uploads/default-profile.png') }}" alt="Profile">
+                </div>
+            </nav>
+        </div>
+    </div>
+    <!-- Hero Carousel Start -->
+    <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000" style="width:100vw;overflow:hidden;">
+      <div class="carousel-inner" style="width:100vw;height:450px;">
+        <div class="carousel-item active">
+          <img src="https://quantumdigital.com/sites/default/files/field.jpg" class="d-block w-100" style="object-fit:cover;height:450px;" alt="Farm Field 1">
+        </div>
+        <div class="carousel-item">
+          <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1332&q=80" class="d-block w-100" style="object-fit:cover;height:450px;" alt="Farm Field 2">
+        </div>
+        <div class="carousel-item">
+          <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1332&q=80" class="d-block w-100" style="object-fit:cover;height:450px;" alt="Farm Field 3">
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+    <!-- Hero Carousel End -->
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <div class="card shadow">
+                    <div class="card-body text-center">
+                        <h1 class="card-title text-success mb-4">Welcome, {{ user_name }}</h1>
+                        <div class="farm-image mb-4 position-relative">
+                            <img src="https://quantumdigital.com/sites/default/files/field.jpg" class="img-fluid rounded" alt="Farm Field">
+                            <div class="image-overlay"></div>
+                            <div class="overlay-text">
+                                <p>Welcome to FARM CONNECT where passion meets the land! We are dedicated to sustainable farming, bringing fresh, high-quality produce straight from our fields to your table. With a commitment to eco-friendly practices and ethical agriculture, we ensure that every crop nurtures both people and the planet.</p>
+                                <p>From farm-fresh vegetables to artisanal products, our mission is simple: to provide wholesome, nutritious food while preserving the beauty of nature. Whether you're a local supporter or a global enthusiast, we invite you to experience the best of farm-to-table goodness.</p>
+                                <p>Join us in growing a healthier future!</p>
+                            </div>
+                        </div>
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                            <a href="/dashboard" class="btn btn-success px-4 py-2">Go to Dashboard</a>
+                            <a href="#" class="btn btn-outline-success px-4 py-2">Explore Markets</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="footer-content">
+            <div class="logo">FARM CONNECT</div>
+            <div class="quick-links">
+                <span>Quick Links</span><br>
+                <a href="#">Products</a>
+                <a href="#">Farm</a>
+
+            </div>
+            <div class="social-media">
+                <span>Social media</span>
+                <div class="icons">
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script>
+        // Initialize Socket.IO
+        const socket = io();
+        let notifications = [];
+        
+        // Join notification room
+        socket.emit('join', { room: 'notifications_{{ user_name }}' });
+        
+        // Listen for new notifications
+        socket.on('new_order', function(data) {
+            notifications.unshift(data);
+            updateNotificationCount();
+            addNotificationToList(data);
+        });
+        
+        function updateNotificationCount() {
+            const unreadCount = notifications.filter(n => !n.read).length;
+            const badge = document.getElementById('notificationCount');
+            badge.textContent = unreadCount;
+            badge.style.display = unreadCount > 0 ? 'block' : 'none';
+        }
+        
+        function addNotificationToList(notification) {
+            const list = document.getElementById('notificationList');
+            const item = document.createElement('div');
+            item.className = `notification-item${notification.read ? '' : ' unread'}`;
+            item.innerHTML = `
+                <div class="notification-content">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-shopping-bag" style="color: #1e8c3a;"></i>
+                        <div>
+                            <strong>${notification.buyer_name}</strong>
+                            <p>Ordered: ${notification.product_name}</p>
+                            <small>${notification.timestamp}</small>
+                        </div>
+                    </div>
+                    <button class="btn btn-sm btn-success mt-2">Chat with Buyer</button>
+                </div>
+            `;
+            list.insertBefore(item, list.firstChild);
+            
+            item.addEventListener('click', () => {
+                if (!notification.read) {
+                    notification.read = true;
+                    item.classList.remove('unread');
+                    updateNotificationCount();
+                    // Mark as read in backend
+                    socket.emit('mark_read', { notification_id: notification.id });
+                }
+                if (notification.link) {
+                    window.location.href = notification.link;
+                }
+            });
+        }
+        
+        // Toggle notification dropdown
+        document.getElementById('notificationIcon').addEventListener('click', function(e) {
+            e.stopPropagation();
+            const dropdown = document.getElementById('notificationDropdown');
+            dropdown.classList.toggle('show');
+        });
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function() {
+            const dropdown = document.getElementById('notificationDropdown');
+            dropdown.classList.remove('show');
+        });
+        
+        // Fetch existing notifications on page load
+        fetch('/get_notifications')
+            .then(response => response.json())
+            .then(data => {
+                notifications = data;
+                notifications.forEach(notification => addNotificationToList(notification));
+                updateNotificationCount();
+            });
+    </script>
+</body>
+</html> 
